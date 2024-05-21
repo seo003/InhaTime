@@ -42,6 +42,7 @@ public class Calendar extends AppCompatActivity {
                 today.setText(day);
             }
         });
+        
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

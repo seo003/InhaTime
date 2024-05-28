@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">InhaTime</string>
+    <string name="title_activity_timer">activity_timer</string>
+    <string name="title_activity_hi">hi</string>
 </resources>

@@ -4,12 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.SubMenu;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -28,12 +25,26 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         SubMenu mnuCalendar = menu.addSubMenu("Calendar");
         SubMenu mnuTodolist = menu.addSubMenu("To Do List");
-        SubMenu mnuFriends = menu.addSubMenu("Friends");
+        SubMenu mnuTimer = menu.addSubMenu("Timer");
 
         // Calendar 메뉴 항목 클릭 리스너 설정
         mnuCalendar.getItem().setOnMenuItemClickListener(item -> {
             // CalendarActivity로 이동
-            startActivity(new Intent(this, Calendar.class));
+            startActivity(new Intent(this, CalendarActivity.class));
+            return true;
+        });
+
+        // To Do List 메뉴 항목 클릭 리스너 설정
+        mnuTodolist.getItem().setOnMenuItemClickListener(item -> {
+            // ToDoListActivity로 이동
+            startActivity(new Intent(this, ToDoListActivity.class));
+            return true;
+        });
+
+        // Timer 메뉴 항목 클릭 리스너 설정
+        mnuTimer.getItem().setOnMenuItemClickListener(item -> {
+            // TimerActivity로 이동
+            startActivity(new Intent(this, TimerActivity.class));
             return true;
         });
 

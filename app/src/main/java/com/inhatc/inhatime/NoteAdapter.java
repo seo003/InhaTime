@@ -49,6 +49,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
 
+            
             layoutTodo = itemView.findViewById(R.id.layoutTodo);
             chkTodo = itemView.findViewById(R.id.chkTodo);
             btnRemove = itemView.findViewById(R.id.btnRemove);

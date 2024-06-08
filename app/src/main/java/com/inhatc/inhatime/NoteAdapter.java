@@ -11,36 +11,64 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
-    private static final String TAG = "NotaAdapter";
-    ArrayList<Note> items = new ArrayList<Note>();
+    private static final String TAG = "NoteAdapter";
+    private ArrayList<Note> items;
+    private DatabaseReference databaseReference;
+
+    public NoteAdapter(ArrayList<Note> items) {
+        this.items = items;
+        this.databaseReference = FirebaseDatabase.getInstance().getReference("todos");
+    }
 
     @NonNull
     @Override
-    //CheckBox와 btnRemove를 포함한 아이템 띄우기
-    public NoteAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView = inflater.inflate(R.layout.todo_item, parent, false);
-
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NoteAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Note item = items.get(position);
         holder.setItem(item);
-        holder.setLayout();
+
+        holder.btnRemove.setOnClickListener(v -> {
+            int id = item.get_id();
+            databaseReference.child(String.valueOf(id)).removeValue()
+                    .addOnSuccessListener(aVoid -> {
+                        if (position >= 0 && position < items.size()) {
+                            items.remove(position);
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, items.size());
+                            Toast.makeText(v.getContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(v.getContext(), "삭제에 실패했습니다: " + e.getMessage(), Toast.LENGTH_LONG).show());
+        });
+
+        holder.chkTodo.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            item.setCompleted(isChecked);
+            databaseReference.child(String.valueOf(item.get_id())).setValue(item);
+        });
     }
 
     @Override
     public int getItemCount() {
         return items.size();
     }
+
     public void setItems(ArrayList<Note> items) {
         this.items = items;
+        notifyDataSetChanged();
     }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout layoutTodo;
         CheckBox chkTodo;
@@ -48,29 +76,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-
-            
             layoutTodo = itemView.findViewById(R.id.layoutTodo);
             chkTodo = itemView.findViewById(R.id.chkTodo);
             btnRemove = itemView.findViewById(R.id.btnRemove);
-            btnRemove.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String TODO = (String) chkTodo.getText();
-                    removeToDo(TODO);
-                    Toast.makeText(view.getContext(), " 삭제되었습니다.", Toast.LENGTH_SHORT).show();
-                }
-
-                private void removeToDo(String TODO){
-
-                }
-            });
         }
+
         public void setItem(Note item) {
             chkTodo.setText(item.getTodo());
-        }
-        public void setLayout(){
-            layoutTodo.setVisibility(View.VISIBLE);
+            chkTodo.setChecked(item.isCompleted());
         }
     }
 }

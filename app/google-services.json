@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "639354149087",
+    "project_id": "inhatctime",
+    "storage_bucket": "inhatctime.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639354149087:android:33aa04e1f3b42babe1716a",
+        "android_client_info": {
+          "package_name": "com.inhatc.inhatime"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzwe6duOF9bFFdRXIn5V_M6UZWshbu5dA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

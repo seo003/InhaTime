@@ -5,7 +5,7 @@ public class Note {
     private int _id;
     private String todo;
     private boolean completed;
-    private String date; // 날짜 필드 추가
+    private String date;
 
     // 기본 생성자 (Firebase에서 필요)
     public Note() {

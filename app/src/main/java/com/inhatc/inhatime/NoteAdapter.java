@@ -17,10 +17,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
-    private static final String TAG = "NoteAdapter";
+
     private ArrayList<Note> items;
     private DatabaseReference databaseReference;
 
+    // 생성자
     public NoteAdapter(ArrayList<Note> items) {
         this.items = items;
         this.databaseReference = FirebaseDatabase.getInstance().getReference("todos");
@@ -29,6 +30,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // todo_item 레이아웃을 인플레이트하여 ViewHolder 생성
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView = inflater.inflate(R.layout.todo_item, parent, false);
         return new ViewHolder(itemView);
@@ -36,9 +38,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        // 현재 위치의 Note 객체를 가져와서 ViewHolder에 설정
         Note item = items.get(position);
         holder.setItem(item);
 
+        // 삭제 버튼 클릭 리스너 설정
         holder.btnRemove.setOnClickListener(v -> {
             int id = item.get_id();
             databaseReference.child(String.valueOf(id)).removeValue()
@@ -53,20 +57,17 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                     .addOnFailureListener(e -> Toast.makeText(v.getContext(), "삭제에 실패했습니다: " + e.getMessage(), Toast.LENGTH_LONG).show());
         });
 
+        // 체크박스 상태 변경 리스너 설정
         holder.chkTodo.setOnCheckedChangeListener((buttonView, isChecked) -> {
             item.setCompleted(isChecked);
             databaseReference.child(String.valueOf(item.get_id())).setValue(item);
         });
     }
 
+    // 아이템의 총 개수 반환
     @Override
     public int getItemCount() {
         return items.size();
-    }
-
-    public void setItems(ArrayList<Note> items) {
-        this.items = items;
-        notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

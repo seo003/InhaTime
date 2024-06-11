@@ -50,6 +50,7 @@ public class CalendarViewActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // 메뉴 항목 생성
         SubMenu mnuCalendar = menu.addSubMenu("Calendar");
         SubMenu mnuTimer = menu.addSubMenu("Timer");
 
@@ -116,6 +117,7 @@ public class CalendarViewActivity extends AppCompatActivity implements View.OnCl
         adapter = new NoteAdapter(todoList);
         recyclerView.setAdapter(adapter);
 
+        // 추가 버튼 클릭 리스터 설정
         btnAdd.setOnClickListener(this);
 
         // Firebase에서 데이터 가져오기
@@ -133,6 +135,7 @@ public class CalendarViewActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
+        // 추가버튼이 클릭됐다면 saveToDo 실행
         if (view == btnAdd) {
             saveToDo();
         }
@@ -147,6 +150,7 @@ public class CalendarViewActivity extends AppCompatActivity implements View.OnCl
             Log.d(TAG, "Saving ToDo: " + newNote.getTodo());
             Log.d(TAG, "Saving ToDo: " + newNote.getDate());
 
+            // firebase 저장
             database.child("todos").child(String.valueOf(newNote.get_id())).setValue(newNote)
                     .addOnSuccessListener(aVoid -> {
                         todoList.add(newNote);
@@ -155,6 +159,7 @@ public class CalendarViewActivity extends AppCompatActivity implements View.OnCl
                         database.child("todos").child("lastUsedId").setValue(lastUsedId);
                         Toast.makeText(getApplicationContext(), "추가되었습니다", Toast.LENGTH_SHORT).show();
 
+                        // 입력 필드 초기화
                         txtInput.setText("");
                     })
                     .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "추가에 실패했습니다: " + e.getMessage(), Toast.LENGTH_LONG).show());
@@ -163,6 +168,7 @@ public class CalendarViewActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    // firebase 데이터 가져오기
     private void fetchDataFromFirebase() {
         if (database == null) {
             Log.e(TAG, "Database reference is null");
@@ -199,6 +205,7 @@ public class CalendarViewActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
+    // 선택된 날짜에 대한 타이머 값 가져오기
     private void loadTimerValue(String date) {
         database.child("timer").child(date).get()
                 .addOnSuccessListener(dataSnapshot -> {
@@ -220,6 +227,7 @@ public class CalendarViewActivity extends AppCompatActivity implements View.OnCl
                 });
     }
 
+    // 시간 형식 변환
     private String formatSecondsToHHMMSS(int seconds) {
         long hours = TimeUnit.SECONDS.toHours(seconds);
         long minutes = TimeUnit.SECONDS.toMinutes(seconds) % 60;

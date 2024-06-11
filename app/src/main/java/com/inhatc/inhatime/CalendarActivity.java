@@ -26,6 +26,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // 메뉴 항목 생성
         SubMenu mnuCalendar = menu.addSubMenu("Calendar");
         SubMenu mnuTimer = menu.addSubMenu("Timer");
 
@@ -60,11 +61,12 @@ public class CalendarActivity extends AppCompatActivity {
         Date date = new Date(calendarView.getDate());
         today.setText(formatter.format(date));
 
+        // 날짜 클릭 리스너
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                String day;
-                day = year + "년" + (month + 1) + "월" + dayOfMonth + "일";
+                // 선택된 날짜를 특정 형식으로 변환
+                String day = year + "년" + (month + 1) + "월" + dayOfMonth + "일";
                 today.setText(day);
 
                 // 인텐트를 사용하여 다른 액티비티로 이동

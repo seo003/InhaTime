@@ -31,6 +31,7 @@ public class TimerActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // 메뉴 항목 생성
         SubMenu mnuCalendar = menu.addSubMenu("Calendar");
         SubMenu mnuTimer = menu.addSubMenu("Timer");
 

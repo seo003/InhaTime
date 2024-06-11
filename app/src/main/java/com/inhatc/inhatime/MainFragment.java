@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class MainFragment extends Fragment {
-    private static final String TAG = "MainFragment"; //오류나 디버깅할 때 상황을 알기 위한 코드
+
     private RecyclerView recyclerView;
     private NoteAdapter adapter;
     private ArrayList<Note> todoList;
@@ -28,9 +28,6 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_main, container, false);
-
-        // Firebase Database 초기화
-        //database = FirebaseDatabase.getInstance().getReference("todos");
 
         initUI(rootView);
 
@@ -41,21 +38,21 @@ public class MainFragment extends Fragment {
     }
 
     private void initUI(ViewGroup rootView) {
-        // fragment_main.xml에 만들었던 RecyclerView를 연결.
+        // recyclerView를 연결
         recyclerView = rootView.findViewById(R.id.recyclerView);
 
-        // LinearLayout을 이용하여 LinearLayout에 recyclerView를 붙입니다.
-        // 이 후 이것은 todo_item들이 세로로 하나하나 정렬하는 역할을 하게 됩니다.
+        // LinearLayout에 recyclerView 추가
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        // 어댑터들을 연결하는 역할을 하게 됩니다.
+        // 어댑터 연결
         todoList = new ArrayList<>();
         adapter = new NoteAdapter(todoList);
         recyclerView.setAdapter(adapter);
     }
 
     private void fetchDataFromFirebase() {
+        // Firebase Database에서 데이터를 가져오는 이벤트 리스너 설정
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

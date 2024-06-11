@@ -27,20 +27,12 @@ public class CalendarActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         SubMenu mnuCalendar = menu.addSubMenu("Calendar");
-        SubMenu mnuTodolist = menu.addSubMenu("To Do List");
         SubMenu mnuTimer = menu.addSubMenu("Timer");
 
         // Calendar 메뉴 항목 클릭 리스너 설정
         mnuCalendar.getItem().setOnMenuItemClickListener(item -> {
             // CalendarActivity로 이동
             startActivity(new Intent(this, CalendarActivity.class));
-            return true;
-        });
-
-        // To Do List 메뉴 항목 클릭 리스너 설정
-        mnuTodolist.getItem().setOnMenuItemClickListener(item -> {
-            // ToDoListActivity로 이동
-            startActivity(new Intent(this, ToDoListActivity.class));
             return true;
         });
 
@@ -64,7 +56,7 @@ public class CalendarActivity extends AppCompatActivity {
         calendarView = findViewById(R.id.calendarView);
 
         // 날짜 변환
-        DateFormat formatter = new SimpleDateFormat("yyyy년 MM월 dd일");
+        DateFormat formatter = new SimpleDateFormat("yyyy년M월dd일");
         Date date = new Date(calendarView.getDate());
         today.setText(formatter.format(date));
 
@@ -74,6 +66,11 @@ public class CalendarActivity extends AppCompatActivity {
                 String day;
                 day = year + "년" + (month + 1) + "월" + dayOfMonth + "일";
                 today.setText(day);
+
+                // 인텐트를 사용하여 다른 액티비티로 이동
+                Intent intent = new Intent(CalendarActivity.this, CalendarViewActivity.class);
+                intent.putExtra("selectedDate", day);
+                startActivity(intent);
             }
         });
 

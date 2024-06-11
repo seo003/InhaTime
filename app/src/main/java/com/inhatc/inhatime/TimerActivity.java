@@ -32,7 +32,6 @@ public class TimerActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         SubMenu mnuCalendar = menu.addSubMenu("Calendar");
-        SubMenu mnuTodolist = menu.addSubMenu("To Do List");
         SubMenu mnuTimer = menu.addSubMenu("Timer");
 
         // Calendar 메뉴 항목 클릭 리스너 설정
@@ -42,12 +41,6 @@ public class TimerActivity extends AppCompatActivity {
             return true;
         });
 
-        // To Do List 메뉴 항목 클릭 리스너 설정
-        mnuTodolist.getItem().setOnMenuItemClickListener(item -> {
-            // ToDoListActivity로 이동
-            startActivity(new Intent(this, ToDoListActivity.class));
-            return true;
-        });
 
         // Timer 메뉴 항목 클릭 리스너 설정
         mnuTimer.getItem().setOnMenuItemClickListener(item -> {
